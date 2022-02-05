@@ -1,4 +1,5 @@
 from flask import Flask, request
+from work_queue import WorkQueue
 import fib
 
 app = Flask(__name__)
@@ -10,8 +11,11 @@ def heartbeat():
 
 
 @app.route("/compute/<index>", methods=["POST"])
-def compute_fib(index: int):
-    return str(fib.compute(int(index)))
+def compute_fib(index):
+    with WorkQueue() as queue:
+        queue.publish_work_request(index)
+
+    return "Success."
 
 
 if __name__ == "__main__":
