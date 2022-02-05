@@ -1,7 +1,7 @@
 import time
+
 import pika
 import env
-from pika import exceptions
 
 
 class WorkQueue:
@@ -28,7 +28,9 @@ class WorkQueue:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.connection.close()
 
-    def publish_work_request(self, index):
-        self.channel.basic_publish(exchange="fib",
-                                   routing_key="values",
-                                   body=index)
+    def subscribe(self, callback):
+        self.channel.basic_consume(queue="values",
+                                   auto_ack=True,
+                                   on_message_callback=callback)
+
+        self.channel.start_consuming()

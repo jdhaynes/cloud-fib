@@ -1,6 +1,5 @@
 from flask import Flask, request
 from work_queue import WorkQueue
-import fib
 
 app = Flask(__name__)
 
