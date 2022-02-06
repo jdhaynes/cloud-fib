@@ -1,9 +1,4 @@
-image: docker:latest
-services:
-  - docker:dind
-
-before_script:
-  - docker info
+image: docker:18
 
 stages:
   - build
