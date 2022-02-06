@@ -1,7 +1,4 @@
-image: docker:18
-
-services:
-  - docker:dind
+image: docker
 
 stages:
   - build
