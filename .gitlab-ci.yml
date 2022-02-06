@@ -3,12 +3,17 @@ image: docker
 stages:
   - build
 
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
 build-api:
   stage: build
   script:
     - docker build -t jackhaynes/cloud-fib-api:latest ./api
+    - docker push jackhaynes/cloud-fib-api:latest
 
 build-worker:
   stage: build
   script:
     - docker build -t jackhaynes/cloud-fib-worker:latest ./worker
+    - docker push jackhaynes/cloud-fib-worker:latest
