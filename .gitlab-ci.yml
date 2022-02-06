@@ -1,0 +1,19 @@
+image: image:latest
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+
+stages:
+  - build
+
+build-api:
+  stage: build
+  script:
+    - docker build -t jackhaynes/cloud-fib-api:latest ./api
+
+build-worker:
+  stage: build
+  script:
+    - docker build -t jackhaynes/cloud-fib-worker:latest ./worker
