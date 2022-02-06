@@ -1,12 +1,18 @@
 version: '3'
 
 services:
+  proxy:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./proxy
+    ports:
+      - '8080:80'
+
   api:
     build:
       dockerfile: Dockerfile.dev
       context: ./api
-    ports:
-      - '8080:5000'
     volumes:
       - /app/venv
       - ./api/:/app
@@ -34,5 +40,5 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
-        - "5672:5672"
-        - "15672:15672"
+      - '5672:5672'
+      - '15672:15672'
