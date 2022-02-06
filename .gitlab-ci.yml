@@ -9,11 +9,11 @@ before_script:
 build-api:
   stage: build
   script:
-    - docker build -t jackhaynes/cloud-fib-api:latest ./api
-    - docker push jackhaynes/cloud-fib-api:latest
+    - docker build -t jackhaynes/cloud-fib-api ./api
+    - docker push jackhaynes/cloud-fib-api
 
 build-worker:
   stage: build
   script:
-    - docker build -t jackhaynes/cloud-fib-worker:latest ./worker
-    - docker push jackhaynes/cloud-fib-worker:latest
+    - docker build -t jackhaynes/cloud-fib-worker ./worker
+    - docker push jackhaynes/cloud-fib-worker
