@@ -1,8 +1,9 @@
+# This pipeline assumes a Docker executer with socket binding to the host Docker daemon.
 image: docker
 
 stages:
-  - build
   - test
+  - build
 
 before_script:
   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
@@ -21,12 +22,14 @@ test-worker:
 
 build-api:
   stage: build
+  only: master
   script:
     - docker build -t jackhaynes/cloud-fib-api ./api
     - docker push jackhaynes/cloud-fib-api
 
 build-worker:
   stage: build
+  only: master
   script:
     - docker build -t jackhaynes/cloud-fib-worker ./worker
     - docker push jackhaynes/cloud-fib-worker
