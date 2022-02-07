@@ -2,9 +2,22 @@ image: docker
 
 stages:
   - build
+  - test
 
 before_script:
   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+
+test-api:
+  stage: test
+  script:
+    - docker build -t jackhaynes/cloud-fib-api -f Dockerfile.dev ./api
+    - docker run jackhaynes/cloud-fib-api pytest -v
+
+test-worker:
+  stage: test
+  script:
+    - docker build -t jackhaynes/cloud-fib-worker -f Dockerfile.dev ./worker
+    - docker run jackhaynes/cloud-fib-worker pytest -v
 
 build-api:
   stage: build
