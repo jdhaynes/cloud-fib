@@ -11,13 +11,13 @@ before_script:
 test-api:
   stage: test
   script:
-    - docker build -t jackhaynes/cloud-fib-api -f Dockerfile.dev ./api
+    - docker build -t jackhaynes/cloud-fib-api -f ./api/Dockerfile.dev ./api
     - docker run jackhaynes/cloud-fib-api pytest -v
 
 test-worker:
   stage: test
   script:
-    - docker build -t jackhaynes/cloud-fib-worker -f Dockerfile.dev ./worker
+    - docker build -t jackhaynes/cloud-fib-worker -f ./worker/Dockerfile.dev ./worker
     - docker run jackhaynes/cloud-fib-worker pytest -v
 
 build-api:
