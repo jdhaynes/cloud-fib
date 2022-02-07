@@ -22,14 +22,16 @@ test-worker:
 
 build-api:
   stage: build
-  only: master
+  only:
+    - master
   script:
     - docker build -t jackhaynes/cloud-fib-api ./api
     - docker push jackhaynes/cloud-fib-api
 
 build-worker:
   stage: build
-  only: master
+  only:
+    - master
   script:
     - docker build -t jackhaynes/cloud-fib-worker ./worker
     - docker push jackhaynes/cloud-fib-worker
