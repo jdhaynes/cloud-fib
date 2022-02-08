@@ -35,3 +35,11 @@ build-worker:
   script:
     - docker build -t jackhaynes/cloud-fib-worker ./worker
     - docker push jackhaynes/cloud-fib-worker
+
+build-proxy:
+  stage: build
+  only:
+    - main
+  script:
+    - docker build -t jackhaynes/cloud-fib-proxy ./proxy
+    - docker push jackhaynes/cloud-fib-proxy
