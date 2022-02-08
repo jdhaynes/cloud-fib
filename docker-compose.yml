@@ -1,0 +1,40 @@
+# This production Dockerfile is used for deployment on AWS Elastic Beanstalk.
+version: '3'
+
+services:
+  proxy:
+    image: jackhaynes/cloud-fib-proxy
+    mem_limit: 128m
+    hostname: proxy
+    ports:
+      - '80:80'
+
+  api:
+    image: jackhaynes/cloud-fib-api
+    mem_limit: 128m
+    hostname: api
+    environment:
+      - RABBITMQ_HOST=$RABBITMQ_HOST
+      - RABBITMQ_PORT=$RABBITMQ_PORT
+
+  worker:
+    image: jackhaynes/cloud-fib-worker
+    mem_limit: 128m
+    hostname: worker
+    environment:
+      - RABBITMQ_HOST=$RABBITMQ_HOST
+      - RABBITMQ_PORT=$RABBITMQ_PORT
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+
+  redis:
+    image: redis
+    hostname: $RABBITMQ_HOST
+    ports:
+      - ${REDIS_PORT}:6379
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: $RABBITMQ_HOST
+    ports:
+      - ${RABBITMQ_PORT}:5672

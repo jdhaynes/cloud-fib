@@ -16,6 +16,9 @@ class WorkQueue:
 
                 self.channel.exchange_declare(exchange="fib")
                 self.channel.queue_declare(queue="values")
+                self.channel.queue_bind(exchange="fib",
+                                        queue="values",
+                                        routing_key="values")
 
                 break
             except pika.exceptions.AMQPConnectionError:
