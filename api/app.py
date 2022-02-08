@@ -9,6 +9,11 @@ def heartbeat():
     return "Service OK."
 
 
+@app.route("/helloworld")
+def hello_world():
+    return "Hello world!"
+
+
 @app.route("/compute/<index>", methods=["POST"])
 def compute_fib(index):
     with WorkQueue() as queue:
