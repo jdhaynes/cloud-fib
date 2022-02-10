@@ -53,13 +53,12 @@ deploy:
   only:
     - main
   image: python:3.9-alpine
-  before_script:
+  script:
     - apk add zip
     - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set region $AWS_DEFAULT_REGION
-  script:
     - zip fib-cloud-${CI_COMMIT_SHA}.zip docker-compose.yml
     - aws s3 cp fib-cloud-${CI_COMMIT_SHA}.zip s3://${S3_BUCKET_NAME}/fib-cloud-${CI_COMMIT_SHA}.zip
     - >
