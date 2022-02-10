@@ -4,6 +4,7 @@ image: docker
 stages:
   - test
   - build
+  - deploy
 
 before_script:
   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
@@ -43,3 +44,11 @@ build-proxy:
   script:
     - docker build -t jackhaynes/cloud-fib-proxy ./proxy
     - docker push jackhaynes/cloud-fib-proxy
+
+deploy:
+  stage: deploy
+  image:
+    name: amazon/aws-cli
+    entrypoint: ['']
+  script:
+    - echo "To be implemented"
