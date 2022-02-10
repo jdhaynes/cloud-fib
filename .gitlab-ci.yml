@@ -47,6 +47,8 @@ build-proxy:
 
 deploy:
   stage: deploy
+  only:
+    - main
   image:
     name: amazon/aws-cli
     entrypoint: ['']
