@@ -26,7 +26,7 @@ build-api:
   only:
     - main
   script:
-    - <<:*docker-login
+    - *docker-login
     - docker build -t jackhaynes/cloud-fib-api ./api
     - docker push jackhaynes/cloud-fib-api
 
@@ -35,7 +35,7 @@ build-worker:
   only:
     - main
   script:
-    - <<:*docker-login
+    - *docker-login
     - docker build -t jackhaynes/cloud-fib-worker ./worker
     - docker push jackhaynes/cloud-fib-worker
 
@@ -44,7 +44,7 @@ build-proxy:
   only:
     - main
   script:
-    - <<:*docker-login
+    - *docker-login
     - docker build -t jackhaynes/cloud-fib-proxy ./proxy
     - docker push jackhaynes/cloud-fib-proxy
 
@@ -52,21 +52,22 @@ deploy:
   stage: deploy
   only:
     - main
-  image:
-    name: amazon/aws-cli
-    entrypoint: ['']
-  script:
+  image: python:3.9-alpine
+  before_script:
+    - apk add zip
+    - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set region $AWS_DEFAULT_REGION
+  script:
     - zip fib-cloud-${CI_COMMIT_SHA}.zip docker-compose.yml
-    - aws s3 cp fib-cloud-${CI_COMMIT_SHA}.zip s3://$S3_BUCKET_NAME/fib-cloud-${CI_COMMIT_SHA}.zip
+    - aws s3 cp fib-cloud-${CI_COMMIT_SHA}.zip s3://${S3_BUCKET_NAME}/fib-cloud-${CI_COMMIT_SHA}.zip
     - >
       aws elasticbeanstalk create-application-version 
       --application-name $EB_APPLICATION_NAME 
       --version-label fib-cloud-${CI_COMMIT_SHA} 
-      --source-bundle S3Bucket=$S3_BUCKET_NAME,S3Key=fib-cloud-${CI_COMMIT_SHA}.zip
+      --source-bundle S3Bucket=${S3_BUCKET_NAME},S3Key=fib-cloud-${CI_COMMIT_SHA}.zip
     - >
       aws elasticbeanstalk update-environment
-      --environment-name $EB_ENVIRONMENT_NAME 
+      --environment-name ${EB_ENVIRONMENT_NAME}
       --version-label fib-cloud-${CI_COMMIT_SHA}
