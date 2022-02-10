@@ -16,6 +16,8 @@ def hello_world():
 
 @app.route("/compute/<index>", methods=["POST"])
 def compute_fib(index):
+    
+    
     with WorkQueue() as queue:
         queue.publish_work_request(index)
 
