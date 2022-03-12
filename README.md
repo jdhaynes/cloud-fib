@@ -4,7 +4,7 @@
 `cloud-fib` is a simple distributed Fibonacci number calculator and cache to test GitLab CI/CD and deployment to AWS.
 
 ## Application Architecture
-Requests for Fibonacci number are made to a REST API which retrives the associated number from a Redis instance. In the case of a cache miss, the request is published to a RabbitMQ message bus upon which a pool of workers subscribe. Upon receiving a request from the message bus, workers are responsible for computing a single Fibonacci number at a given time and inserting the result into the Redis cache for future use.
+Requests for Fibonacci number are made to a REST API which retrives the associated number from a Redis instance. In the event of a cache miss, the request is published to a RabbitMQ message bus upon which a pool of workers subscribe. Upon receiving a request from the message bus, workers are responsible for computing a single Fibonacci number at a given time and inserting the result into the Redis cache for future use. 
 
 The workers implement a simple recursive algorithm for calculation of Fibonacci number without any dynamic programming optimisations in order to emphasise the requirement for a worker pool.
 

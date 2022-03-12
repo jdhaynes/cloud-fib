@@ -48,7 +48,7 @@ build-proxy:
     - docker build -t jackhaynes/cloud-fib-proxy ./proxy
     - docker push jackhaynes/cloud-fib-proxy
 
-deploy:
+.deploy:
   stage: deploy
   only:
     - main

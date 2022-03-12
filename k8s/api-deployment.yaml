@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-fib-api-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cloud-fib-api
+  template:
+    metadata:
+      labels:
+        app: cloud-fib-api
+    spec:
+      containers:
+        - name: cloud-fib-api
+          image: jackhaynes/cloud-fib-api
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '0.25m'
+          ports:
+            - containerPort: 5000
