@@ -48,12 +48,10 @@ build-proxy:
     - docker build -t jackhaynes/cloud-fib-proxy ./proxy
     - docker push jackhaynes/cloud-fib-proxy
 
-deploy:
+.deploy:
   stage: deploy
   only:
     - main
-  rules:
-    - if: '${DEPLOY} == "1"'
   image: python:3.9-alpine
   script:
     - apk add zip
