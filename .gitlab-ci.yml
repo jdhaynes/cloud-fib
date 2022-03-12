@@ -52,6 +52,8 @@ deploy:
   stage: deploy
   only:
     - main
+  rules:
+    - if: '${DEPLOY} == "1"'
   image: python:3.9-alpine
   script:
     - apk add zip

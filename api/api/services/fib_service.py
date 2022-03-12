@@ -8,7 +8,7 @@ class FibService(FibServicePort):
         self.__message_bus = message_bus
         self.__database = database
 
-    def get_fib(self, index: int) -> int:
+    def get_fib(self, index: int):
         fib_result = self.__database.get_fib(index)
 
         if fib_result is not None:
